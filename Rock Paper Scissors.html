@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <style>
+     </style>
+</head>
+<title>Ian's Rock, Paper, Scissors Game</title>
+<body>
+  <h1>Please open Console before playing</h1><br>
+  <button onclick="playGame()">Please Choose Rock, Paper or Scissors</button>
+  
+  <script>
+    
+    let playerScore = 0;
+    let computerScore = 0;
+    let gameCount = 0;
+    let computerSelection = computerPlay();
+
+    function computerPlay() {
+        let options = ['ROCK','PAPER','SCISSORS'];
+        return options[Math.floor(Math.random()* 3)]; 
+    }
+
+    function playRound(player1, computer1) {
+    
+      if ((player1 === 'ROCK' && computer1 === 'SCISSORS') || (player1 === 'SCISSORS' && computer1 === 'PAPER') 
+      || (player1 === 'PAPER' && computer1 === 'ROCK')) {
+        console.log("Winner winner, chicken dinner!");
+        console.log('You chose ' + player1);
+        console.log('Computer chose ' + computer1);
+        playerScore ++;
+        gameCount ++;
+        console.log('No of Games Played = ' + gameCount);
+      }
+      else if ((player1 === 'ROCK' && computer1 === 'PAPER') || (player1 === 'SCISSORS' && computer1 === 'ROCK') 
+      || (player1 === 'PAPER' && computer1 === 'SCISSORS')) {
+        console.log("Loser!");
+        console.log('You chose ' + player1);
+        console.log('Computer chose ' + computer1);
+        computerScore ++;
+        gameCount ++;
+        console.log('No of Games Played = ' + gameCount);
+      }
+      else if ((player1 === 'ROCK' && computer1 === 'ROCK') || (player1 === 'SCISSORS' && computer1 === 'SCISSORS') 
+      || (player1 === 'PAPER' && computer1 === 'PAPER')) {
+        console.log("Oops you both chose the same!");
+        console.log('You chose ' + player1);
+        console.log('Computer chose ' + computer1);
+        gameCount ++;
+        console.log('No of Games Played = ' + gameCount);
+      }
+      else {
+        console.log("Please type Rock, Paper or Scissors - didn't you read the instructions?");
+      }
+    } 
+
+function playGame() {
+for (let i = 0; i <5; i++) {
+  let playerSelection = prompt('Please choose Rock, Paper or Scissors');
+  if (playerSelection == null) break;
+  computerSelection = computerPlay();
+  playRound(playerSelection.toUpperCase(),computerSelection);
+  console.log("Players Score: " + playerScore);
+  console.log("Computers Score: " + computerScore);
+ }
+if (playerScore > computerScore) {
+  console.log("You win")
+ }
+ else if (playerScore < computerScore) {
+  console.log("Computer wins");
+ }
+ else {
+   console.log("It's a draw");
+ }
+}
+
+
+
+  </script>
+</body>
+</html>
