@@ -8,7 +8,7 @@
 <title>Ian's Rock, Paper, Scissors Game</title>
 <body>
   <h1>Please open Console before playing</h1><br>
-  <button onclick="playGame()">Please Choose Rock, Paper or Scissors</button>
+  <button onclick="game()">Please Choose Rock, Paper or Scissors</button>
   
   <script>
     
@@ -55,7 +55,7 @@
       }
     } 
 
-function playGame() {
+function game() {
 for (let i = 0; i <5; i++) {
   let playerSelection = prompt('Please choose Rock, Paper or Scissors');
   if (playerSelection == null) break;
