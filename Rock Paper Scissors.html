@@ -3,79 +3,183 @@
 <head>
   <meta charset='utf-8'>
   <style>
+    .btncontainer {
+      display: flex;
+      justify-content: space-around;
+      width: 700px;
+    }
+    #container {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 10px;
+      justify-content: space-evenly;
+      height: 250px;
+      width: 700px;
+      margin-top: 20px;
+      border: 1px solid red;
+      border-radius: 2%;
+      background-color:lightskyblue;
+    }
+    .btn {
+      width: 100px;
+      height: 40px;
+      background-color: lightgrey;
+      font-weight: bold;
+      border-radius: 10%;
+    }
+    #totalgames {
+      margin: 10px;
+      text-align: center;
+      }
+    .info {
+      margin: 10px;
+      height:100px;
+      width: 200px;
+            text-align: center;
+      background-color: lightyellow;
+      border: 1px solid blue;
+      border-radius: 3%;
+      justify-content: center;
+    }
+    #updates {
+      width: 700px;
+      font-weight: bolder;
+      font-size: 17px;
+      color: black;
+      line-height: 50px;
+      height: 50px;
+      text-align: center;
+
+    }
+    .new-game {
+      height: 40px;
+      color: white;
+      background-color: darkblue;
+      
+          }
+    #game-over {
+      display:block;
+      margin: 10px;
+      width: 700px;
+      text-align: center;
+      font-size: 50px;
+      font-weight: bolder;    }
      </style>
 </head>
 <title>Ian's Rock, Paper, Scissors Game</title>
 <body>
-  <h1>Please open Console before playing</h1><br>
-  <button onclick="game()">Please Choose Rock, Paper or Scissors</button>
-  
+  <h2>Have a game of Rock, Paper, Scissors - see if you can beat the computer!</h2><br>
+  <div class="btncontainer">
+  <button id='rock' class="btn" value="rock">Rock</button>
+  <button id='paper' class="btn" value="paper">Paper</button>
+  <button id='scissors' class="btn" value="scissors">Scissors</button>
+</div>
+  <div id="container">
+    <div class="info" id="totalgames"><span>No of Games Played:</span>
+      <h3>Games: <span id="games">0</span></h3>
+    </div>
+    <div id="player" class="info"><span>Player Score</span>
+      <h3>Score: <span id="pscore">0</span></h3>
+    </div>
+    <div id="computer" class="info"><span>Computer Score</span>
+      <h3>Score: <span id="cscore">0</span></h3>
+    </div>
+    <div id="updates"></div>
+    <!--button id="new-game">Start New Game</button-->
+  </div>
+  <div id="game-over"></div>
   <script>
-    
     let playerScore = 0;
     let computerScore = 0;
     let gameCount = 0;
     let computerSelection = computerPlay();
-
     function computerPlay() {
         let options = ['ROCK','PAPER','SCISSORS'];
         return options[Math.floor(Math.random()* 3)]; 
     }
+    const pScoreDisplay = document.querySelector('#pscore');
+    const cScoreDisplay = document.querySelector('#cscore');
+    const updates = document.querySelector('#updates')
+    const rock = document.querySelector('#rock');
+    const paper = document.querySelector('#paper');
+    const scissors = document.querySelector('#scissors');
+    const buttons = document.querySelectorAll('.btn');
+    const gameover = document.querySelector('#game-over');
+    const container = document.querySelector('#container');
+    const newGame = document.createElement('button');
+
+    rock.addEventListener('click', function() {
+      playRound('ROCK',computerPlay())
+      });
+    paper.addEventListener('click', function() {
+      playRound('PAPER',computerPlay())
+      });
+    scissors.addEventListener('click', function() {
+      playRound('SCISSORS',computerPlay())
+    });
 
     function playRound(player1, computer1) {
-    
       if ((player1 === 'ROCK' && computer1 === 'SCISSORS') || (player1 === 'SCISSORS' && computer1 === 'PAPER') 
       || (player1 === 'PAPER' && computer1 === 'ROCK')) {
-        console.log("Winner winner, chicken dinner!");
-        console.log('You chose ' + player1);
-        console.log('Computer chose ' + computer1);
+        updates.textContent='Winner winner, chicken dinner! You chose ' + player1 + ', the computer chose ' + computer1;
         playerScore ++;
+        pScoreDisplay.textContent = playerScore;
         gameCount ++;
-        console.log('No of Games Played = ' + gameCount);
-      }
+        games.textContent = gameCount;
+        }
       else if ((player1 === 'ROCK' && computer1 === 'PAPER') || (player1 === 'SCISSORS' && computer1 === 'ROCK') 
       || (player1 === 'PAPER' && computer1 === 'SCISSORS')) {
-        console.log("Loser!");
-        console.log('You chose ' + player1);
-        console.log('Computer chose ' + computer1);
+        updates.textContent='Loser! You chose ' + player1 + ', the computer chose ' + computer1;
         computerScore ++;
+        cScoreDisplay.textContent = computerScore;
         gameCount ++;
-        console.log('No of Games Played = ' + gameCount);
-      }
+        games.textContent = gameCount;
+       }
       else if ((player1 === 'ROCK' && computer1 === 'ROCK') || (player1 === 'SCISSORS' && computer1 === 'SCISSORS') 
       || (player1 === 'PAPER' && computer1 === 'PAPER')) {
-        console.log("Oops you both chose the same!");
-        console.log('You chose ' + player1);
-        console.log('Computer chose ' + computer1);
+        updates.textContent='Oops you both chose the same! You chose ' + player1 + ' and the computer also chose ' + computer1;
         gameCount ++;
-        console.log('No of Games Played = ' + gameCount);
+        games.textContent = gameCount;
+       // console.log('No of Games Played = ' + gameCount);
       }
-      else {
-        console.log("Please type Rock, Paper or Scissors - didn't you read the instructions?");
-      }
-    } 
+      if (playerScore ===5) {
+  updates.textContent='You got 5 points so you win!';
+  gameover.textContent='GAME OVER';
+  rock.disabled = true;
+  paper.disabled = true;
+  scissors.disabled = true;
+  container.appendChild(newGame);
+  newGame.classList.add('new-game');
+  newGame.textContent='Start New Game';
+  }
+ else if (computerScore ===5) {
+  updates.textContent='Computer got 5 points so computer wins!'
+  gameover.textContent='GAME OVER';
+  rock.disabled = true;
+  paper.disabled = true;
+  scissors.disabled = true;
+  container.appendChild(newGame);
+  newGame.classList.add('new-game');
+  newGame.textContent ='Start New Game';
+   }
+  
+  newGame.addEventListener('click', resetCounters)
+  } 
 
-function game() {
-for (let i = 0; i <5; i++) {
-  let playerSelection = prompt('Please choose Rock, Paper or Scissors');
-  if (playerSelection == null) break;
-  computerSelection = computerPlay();
-  playRound(playerSelection.toUpperCase(),computerSelection);
-  console.log("Players Score: " + playerScore);
-  console.log("Computers Score: " + computerScore);
- }
-if (playerScore > computerScore) {
-  console.log("You win")
- }
- else if (playerScore < computerScore) {
-  console.log("Computer wins");
- }
- else {
-   console.log("It's a draw");
- }
-}
-
-
+  function resetCounters() {
+    playerScore = 0;
+    pScoreDisplay.textContent = playerScore;
+    computerScore = 0;
+    cScoreDisplay.textContent = computerScore;
+    gameCount = 0;
+    games.textContent = gameCount;
+    container.removeChild(newGame);
+    updates.textContent = '';
+    gameover.textContent = '';
+    rock.disabled = false;
+    paper.disabled = false;
+    scissors.disabled = false;
+  }
 
   </script>
 </body>
